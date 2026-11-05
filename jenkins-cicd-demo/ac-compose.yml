@@ -1,0 +1,38 @@
+apiVersion: '2021-10-01'
+location: centralindia
+name: compose-demo-group
+type: Microsoft.ContainerInstance/containerGroups
+properties: 
+  osType: Linux
+  restartPolicy: Always
+  containers: 
+    - name: nginx
+      properties:
+        image: nginx:latest
+        ports:
+          - port: 80
+        resources:
+          requests:
+            cpu: 0.5
+            memoryInGb: 0.5
+
+    - name: mysql
+      properties: 
+        image: mysql:8.4
+        environmentVariables:
+          - name: MYSQL_DATABASE
+            value: mydb
+          - name: MYSQL_USER
+            value: myuser
+          - name: MYSQL_ROOT_PASSWORD
+            securevalue: password
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1.5
+  ipAddress:
+    type: Public
+    dnsNameLabel: compose-demo-td01
+    ports:
+        - protocol: tcp
+          port: 80
